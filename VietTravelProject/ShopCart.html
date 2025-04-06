@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop Cart</title>
+    <link rel="stylesheet" href="ShopCart.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    
+    <div class="full-container">
+      <div class="container1">
+        <div class="navBar">
+          <img src="img/VietTravelLogo.png" alt="Logo" class="top-right-image">
+          <a class="navItems" href="http://127.0.0.1:5500/index.html">Home</a>
+          <a class="navItems" href="#">Packages</a>
+          <a class="navItems" href="#">Flights</a>
+          <a class="navItems" href="#">Map</a>
+          <a class="navItems" href="#">Contact Us</a>
+          <div class="icon">
+            <i class="fa-solid fa-magnifying-glass"onclick="moveToHome()"></i>
+            <i onclick="openCartModal()" class="fa-solid fa-cart-shopping"></i>
+            <i class="fa-solid fa-user"></i>
+            <div class="line"></div>
+            <i class="fa-solid fa-globe"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="container2" id="ctn2">
+        <div class="searchForm">
+          <div class="searchBox">
+            <input
+              type="text"
+              placeholder="Enter City"
+              class="search"
+              id="searchCity"
+            />
+          </div>
+          <div class="searchBox">
+            <input
+              type="text"
+              placeholder="Search over a million tour and travels, sight seeing..."
+              class="search"
+              id="searchTour"
+            />
+          </div>
+          <button class="searchButton" onclick="handleSearching()">Search</button>
+        </div>
+      </div>
+      <div class="container3">
+        <div class="slideshow-container">
+      <div class="mySlides fade">
+        <div class="numbertext">1 / 3</div>
+        <img class="imgN" src="img/travel1.jpg" style="width:100% ">
+        <div class="text">TRAVEL NOW!!!!</div>
+      </div>
+
+      <div class="mySlides fade">
+        <div class="numbertext">2 / 3</div>
+        <img class="imgN" src="img/travel2.jpg" style="width:100%">
+        <div class="text">DONT KNOW THE BEST AIRLINE???</div>
+      </div>
+
+      <div class="mySlides fade">
+        <div class="numbertext">3 / 3</div>
+        <img class="imgN" src="img/travel3.jpg" style="width:100%">
+        <div class="text">CHOOSE VIETTRAVEL !!!!</div>
+      </div>
+
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <br>
+    <div style="text-align:center">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+      <div class="container3">
+        <div id="cartModal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeCartModal()">&times;</span>
+            <h2 class="gioHang">Giỏ hàng của bạn :</h2>
+            <ul id="cartItems"></ul>
+            <div class="ticketInfo flex gap-5 ">
+              <table style="width: 100%" id="tableContent">
+                <tr>
+                  <td>Departure</td>
+                  <td>Destination</td>
+                  <td>Departure Date</td>
+                  <td>Return Date</td>
+                  <td>Passengers</td>
+                </tr>
+                <!-- <tr>
+                  <td>x</td>
+                  <td>x</td>
+                  <td>x</td>
+                </tr> -->
+              </table>
+              <!-- <div class="userInfo flex flex-col w-1/2">
+                <h2 class="text">Thông tin khách hàng</h2>
+                <input class="info" type="text" placeholder="Full-name" />
+                <input class="info" type="text" placeholder="Birthday" />
+                <input class="info" type="text" placeholder="Phone number" />
+                <input class="info" type="text" placeholder="Email address" />
+                <input class="info" type="text" placeholder="Address" />
+                <button id="submit" onclick="alert('Đặt hàng thành công !')">
+                  Đặt vé
+                </button>
+              </div> -->
+              <button id="submit" onclick="alert('Đặt hàng thành công !')">
+                Đặt vé
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container6">
+        <div class="text">
+        </div>
+        <div class="topSightSeeing">
+          <h1 class="toptravel">TOP SIGHTSEEING IN 2025</h1>
+          <div class="top">
+            <div class="imgDes">
+              <img src="img/Aus.jpg" alt="" />
+            </div>
+            <div class="infoDes">
+              <h1>SYDNEY</h1>
+              <h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </h2>
+              <h1>Cost: 99$</h1>
+              <button onclick="moveToShopCart()" type="submit">BUY NOW</button>
+              <button onclick="moveToShopCart()" type="submit">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+          <div class="lineRow"></div>
+          <div class="top">
+            <div class="infoDes">
+              <h1>LONDON</h1>
+              <h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </h2>
+              <h1>Cost: 99$</h1>
+              <button onclick="moveToShopCart()" type="submit">BUY NOW</button>
+              <button onclick="moveToShopCart()" type="submit">
+                ADD TO CART
+              </button>
+            </div>
+            <div class="imgDes">
+              <img src="img/eng.jpg" alt="" />
+            </div>
+          </div>
+          <div class="lineRow"></div>
+          <div class="top">
+            <div class="imgDes">
+              <img src="img/paris.jpg" alt="" />
+            </div>
+            <div class="infoDes">
+              <h1>PARIS ''ROMANTIC''</h1>
+              <h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </h2>
+              <h1>Cost: 99$</h1>
+              <button onclick="moveToShopCart()" type="submit">BUY NOW</button>
+              <button onclick="moveToShopCart()" type="submit">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- <div class="Title" id="title">
+        <h1>DANH SÁCH CÁC CHUYẾN BAY TRONG VÀ NGOÀI NƯỚC NGÀY XX/YY/ZZ</h1>
+      </div>
+
+      <div id="searchContainer"></div>
+
+      <div id="allFights"></div>
+    </div> -->
+
+    <div class="more">
+      <button onclick="alert('Chưa có chuyến bay mới ...')">XEM THÊM</button>
+    </div>
+    <div class="lastContainer" id="ggm">
+      <div class="toptravel"><h1>Search For Hot Tourist Location !!!</h1></div>
+      <div id="googleMap" style="width: 100%; height: 600px">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.292292292292!2d106.0741213147625!3d21.18608078590268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abf1b1b1b1b1%3A0x3b1b1b1b1b1b1b1!2zVHLGsOG7nW5nIMSQ4bqhaSBI4buNYyBD4bqhaSBo4buNYyBD4bqhaSBuZ2jhu4cgVGjhu6c!5e0!3m2!1svi!2s!4v1615796820001!5m2!1svi!2s"
+          width="600"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <script>
+        function myMap() {
+          var mapProp = {
+            center: new google.maps.LatLng(21.18608, 106.07631),
+            zoom: 15,
+          };
+          var map = new google.maps.Map(
+            document.getElementById("googleMap"),
+            mapProp
+          );
+          var marker = new google.maps.Marker({
+            position: mapProp.center,
+            map: map,
+          });
+        }
+      </script>
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-D2TgGkoG-aPuxymxZV-ZyYWGWSHPqA&callback=myMap"
+        async
+        defer
+      ></script>
+    </div>
+    <div class="footer-container">
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="footer-col">
+              <h4>company</h4>
+              <ul>
+                <li><a href="#">about us</a></li>
+                <li><a href="#">our services</a></li>
+                <li><a href="#">privacy policy</a></li>
+                <li><a href="#">affiliate program</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>get help</h4>
+              <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">shipping</a></li>
+                <li><a href="#">returns</a></li>
+                <li><a href="#">order status</a></li>
+                <li><a href="#">payment options</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>online shop</h4>
+              <ul>
+                <li><a href="#">watch</a></li>
+                <li><a href="#">bag</a></li>
+                <li><a href="#">shoes</a></li>
+                <li><a href="#">dress</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>follow us</h4>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="https://app.tudongchat.com/js/chatbox.js"></script>
+<script>
+  const tudong_chatbox = new TuDongChat('9lVaW5_b-jKJATEwnzdQJ')
+  tudong_chatbox.initial()
+</script>
+  </body>
+  <script src="ShopCart.js"></script>
+  <script src="searching.js"></script>
+</html>

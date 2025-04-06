@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Viet Travel</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-D2TgGkoG-aPuxymxZV...r&v=beta"
+    ></script>
+    <!-- //firebase -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+  </head>
+  <body>
+    <div class="full-container">
+      <div class="container1">
+        <div class="navBar">
+          <img src="img/VietTravelLogo.png" alt="Logo" class="top-right-image">
+          <a class="navItems" href="#ctn2">Home</a>
+          <a class="navItems" href="#ctn3">Packages</a>
+          <a class="navItems" href="#ctn5">Deals</a>
+          <a class="navItems" href="#ggm">Map</a>
+          <a class="navItems" href="#footer">Contact Us</a>
+          <div class="icon" id="tools">
+            <!-- <i class="fa-solid fa-magnifying-glass" onclick="moveToHome()"></i>
+            <i class="fa-solid fa-cart-shopping" onclick="moveToShopCart()"></i>
+            <i class="fa-solid fa-user"></i>
+            <div class="line"></div>
+            <i class="fa-solid fa-globe"></i> -->
+            <!-- <button onclick="moveToLogin()" class="log1">
+              Sign Out <i class="fa-solid fa-right-from-bracket"></i>
+            </button>  -->
+          </div>
+        </div>
+      </div>
+      <div class="container2" id="ctn2">
+        <div class="searchForm">
+          <div class="searchBox">
+            <input
+              type="text"
+              placeholder="Enter City"
+              class="search"
+              id="searchCity"
+            />
+          </div>
+          <div class="searchBox">
+            <input
+              type="text"
+              placeholder="Search over a million tour and travels, sight seeing..."
+              class="search"
+              id="searchTour"
+            />
+          </div>
+          <button class="searchButton" onclick="handleSearching()">Search</button>
+        </div>
+      </div>
+      <div class="container3" id="ctn3">
+        <img src="img/travel.jpg" alt="" />
+        <div class="booking">
+          <div class="bookingInfo">
+            <p id="p1">WORLD'S LEADING TOUR AND TRAVELS</p>
+            <h1>Tour Package booking now!</h1>
+            <p id="p2">
+              Experience the various exciting tour and travel packages and Make
+              hotel reservations, find vacation packages,search cheap hotels and
+              events
+            </p>
+          </div>
+          <div class="bookingIcon"></div>
+          <div class="form-body">
+        <div class="input-group">
+            <label for="departure">Điểm khởi hành</label>
+            <input type="text" id="departure" placeholder="Điểm khởi hành">
+        </div>
+        <div class="input-group">
+            <label for="arrival">Điểm đến</label>
+            <input type="text" id="arrival" placeholder="Điểm đến">
+        </div>
+        <div class="input-group">
+            <label for="depart-date">Khởi hành</label>
+            <input type="date" id="depart-date">
+        </div>
+        <div class="input-group">
+            <label for="return-date">Ngày về</label>
+            <input type="date" id="return-date">
+        </div>
+        <div class="input-group">
+            <label for="passengers">Hành khách</label>
+            <select id="passengers">
+                <option value="1">1 người lớn</option>
+                <option value="2">2 người lớn</option>
+                <option value="3">3 người lớn</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="promo-code">Mã khuyến mại</label>
+            <input type="text" id="promo-code">
+        </div>
+        
+        <button class="search-button">ĐẶT VÉ NGAY</button>
+    </div>
+  </div>
+        </div>
+      <div class="container4" id="ctn4">
+        <div class="travelSlogan">
+          <h1>Travel to Vietnam, Cambodia, Laos, Myanmar & Thailand!</h1>
+        </div>
+        <div class="travelReview">
+          <p>
+            Viet travel is a team of people with a full of passion, energy and
+            experience. Viet travel was set up by principal aim to bring
+            satisfaction and pleasure to our clients by giving them our best
+            service with best price. We offer private tours and group joining
+            tours in Asia. Tours includes selective day trips, hotels, cruises,
+            transfers and hospitable guides to the best sightseeing spots. We
+            can customize the package tours to suit our clients budget. We want
+            to show you Asia’s wonderful natural beauty. The Asia region is our
+            life; we live and breathe the culture, traditions and beliefs every
+            moment of every day. We’re very proud of the greatness of our
+            homeland and its neighbors, and it’s our absolute pleasure to show
+            you everything we love about it. VietTravel helps you to save your
+            valuable time and provide you package tours with high quality. We
+            have a devoted team of tour guides who can speak English, French,
+            Spanish, Russian, Japanese, Chinese and other languages. Their
+            professionalism, personality and outstanding knowledge are the
+            reasons they are employed by us. We will try our best to make your
+            holidays memorable.
+
+            
+          </p>
+        </div>
+        <div class="travelSlogan">
+          <div class="lineRow"></div>
+          <h1>WHY CHOOSE US?</h1>
+        </div>
+        <div class="reason">
+          <div class="reason1">
+            <div class="circle">
+              <i class="fa-solid fa-list-check"></i>
+            </div>
+            <div class="nameReason"><h2>PROFESIONAL TRAVEL ACTIVITIES</h2></div>
+          </div>
+          <div class="reason1">
+            <div class="circle">
+              <i class="fa-solid fa-list-check"></i>
+            </div>
+            <div class="nameReason"><h2>PROFESIONAL TRAVEL ACTIVITIES</h2></div>
+          </div>
+          <div class="reason1">
+            <div class="circle">
+              <i class="fa-solid fa-list-check"></i>
+            </div>
+            <div class="nameReason"><h2>PROFESIONAL TRAVEL ACTIVITIES</h2></div>
+          </div>
+        </div>
+      </div>
+      <div class="container5" id="ctn5">
+        <img src="img/forest.webp" alt="" />
+        <div class="deal">
+          <div class="dealInfo">
+            <div class="thumb1">
+              <h3>GET IN TOUCH WITH US</h3>
+            </div>
+            <div class="thumb2">
+              <h1>GET BEST TRAVEL DEALS</h1>
+            </div>
+            <div class="thumb3">
+              <p>
+                Get best travel deals for hotels, holidays, trains.Donec eget
+                odio a nunc lacinia rhoncus. Vivamus dignissim magna quis nisl
+                fermentum porttitor. Maecenas venenatis mattis dui at
+                pharetra.Nullam rutrum odio eu viverra accumsan. Nam orci elit,
+                scelerisque eget dui non, sagittis tristique metus. Fusce nec
+                nulla dapibus, fringilla nulla eu, vehicula odio.
+              </p>
+            </div>
+            <div class="thumb4">
+              <h2>Help line: +001 98765 12345</h2>
+            </div>
+            <div class="thumb5">
+              <button onclick="moveToShopCart()" type="submit">BOOK NOW</button>
+            </div>
+          </div>
+          <div class="dealVideo">
+            <iframe
+              width="853"
+              height="480"
+              src="https://www.youtube.com/embed/yzzWW9uKqxE"
+              title="Backstreet Boys - I Want It That Way | Music Travel Love ft. Francis Greg (Cover)"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+        <div class="lineRow"></div>
+      </div>
+      <div class="container6">
+        <div class="text">
+          <h1>TOP SIGHTSEEING IN 2025</h1>
+        </div>
+        <div class="topSightSeeing">
+          <div class="top">
+            <div class="imgDes">
+              <img src="img/Aus.jpg" alt="" />
+            </div>
+            <div class="infoDes">
+              <h1>SYDNEY</h1>
+              <h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </h2>
+              <h1>Cost: 99$</h1>
+              <button onclick="moveToShopCart()" type="submit">BUY NOW</button>
+              <button onclick="moveToShopCart()" type="submit">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+          <div class="lineRow"></div>
+          <div class="top">
+            <div class="infoDes">
+              <h1>LONDON</h1>
+              <h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </h2>
+              <h1>Cost: 99$</h1>
+              <button onclick="moveToShopCart()" type="submit">BUY NOW</button>
+              <button onclick="moveToShopCart()" type="submit">
+                ADD TO CART
+              </button>
+            </div>
+            <div class="imgDes">
+              <img src="img/eng.jpg" alt="" />
+            </div>
+          </div>
+          <div class="lineRow"></div>
+          <div class="top">
+            <div class="imgDes">
+              <img src="img/paris.jpg" alt="" />
+            </div>
+            <div class="infoDes">
+              <h1>PARIS ''ROMANTIC''</h1>
+              <h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </h2>
+              <h1>Cost: 99$</h1>
+              <button onclick="moveToShopCart()" type="submit">BUY NOW</button>
+              <button onclick="moveToShopCart()" type="submit">
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text">
+        <h1>Tips Before Travel</h1>
+      </div>
+      <div class="prelcontainer">
+        <div class="left-section">
+          <h2 class="tips">TIPS BEFORE TRAVEL</h2>
+          <div class="tip">
+            <img src="img/passport.png" alt="Passport Icon"> 
+            <h3>Bring copies of your passport</h3>
+            <p>Aliquam pretium id justo eget tristique. Aenean feugiat vestibulum blandit.</p>
+          </div>
+          <div class="tip">
+            <img src="img/embassy.png" alt="Embassy Icon"> 
+            <h3>Register with your embassy</h3>
+            <p>Mauris efficitur, ante sit amet rhoncus malesuada, orci justo sollicitudin.</p>
+          </div>
+          <div class="tip">
+            <img src="img/cash.png" alt="Cash Icon"> 
+            <h3>Always have local cash</h3>
+            <p>Donec et placerat ante. Etiam et velit in massa.</p>
+          </div>
+        </div>
+        <div class="right-section">
+          <h2 class="tips">CUSTOMER TESTIMONIALS</h2>
+          <div class="testimonial">
+            <img src="img/john.webp" alt="John William"> 
+            <h3>John William</h3>
+            <p>Ut sed sem quis magna ultricies lacinia et sed tortor. Ut non tincidunt nisi, non elementum lorem. Aliquam gravida sodales.</p>
+            <p class="location">Illinois, United States of America</p>
+          </div>
+        </div>
+      </div>
+
+    <div class="footer-container" id="footer">
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="footer-col">
+              <h4>company</h4>
+              <ul>
+                <li><a href="#">about us</a></li>
+                <li><a href="#">our services</a></li>
+                <li><a href="#">privacy policy</a></li>
+                <li><a href="#">affiliate program</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>get help</h4>
+              <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">shipping</a></li>
+                <li><a href="#">returns</a></li>
+                <li><a href="#">order status</a></li>
+                <li><a href="#">payment options</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>online shop</h4>
+              <ul>
+                <li><a href="#">watch</a></li>
+                <li><a href="#">bag</a></li>
+                <li><a href="#">shoes</a></li>
+                <li><a href="#">dress</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>follow us</h4>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script src="https://app.tudongchat.com/js/chatbox.js"></script>
+<script>
+  const tudong_chatbox = new TuDongChat('9lVaW5_b-jKJATEwnzdQJ')
+  tudong_chatbox.initial()
+</script>
+  </body>
+  <script src="firebase.js"></script>
+  <script src="app.js"></script>
+  <script src="searching.js"></script>
+</html>
