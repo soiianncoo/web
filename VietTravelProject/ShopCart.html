@@ -19,26 +19,61 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
       rel="stylesheet"
     />
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     
+    <div id="popupForm" style="display: none;">
+      <form class="form-body" id="form">
+        <div class="input-group">
+            <label for="departure">Điểm khởi hành</label>
+            <input type="text" id="departure" placeholder="Điểm khởi hành">
+        </div>
+        <div class="input-group">
+            <label for="arrival">Điểm đến</label>
+            <input type="text" id="arrival" placeholder="Điểm đến">
+        </div>
+        <div class="input-group">
+            <label for="depart-date">Khởi hành</label>
+            <input type="date" id="depart-date">
+        </div>
+        <div class="input-group">
+            <label for="return-date">Ngày về</label>
+            <input type="date" id="return-date">
+        </div>
+        <div class="input-group">
+            <label for="passengers">Hành khách</label>
+            <select id="passengers">
+                <option value="1">1 người lớn</option>
+                <option value="2">2 người lớn</option>
+                <option value="3">3 người lớn</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="promo-code">Mã khuyến mại</label>
+            <input type="text" id="promo-code">
+        </div>
+        <button class="search-button" id="submit">Update</button>
+          </form>
+    </div>
+    
+
     <div class="full-container">
       <div class="container1">
         <div class="navBar">
           <img src="img/VietTravelLogo.png" alt="Logo" class="top-right-image">
-          <a class="navItems" href="http://127.0.0.1:5500/index.html">Home</a>
+          <a class="navItems" href="./index.html">Home</a>
           <a class="navItems" href="#">Packages</a>
           <a class="navItems" href="#">Flights</a>
           <a class="navItems" href="#">Map</a>
           <a class="navItems" href="#">Contact Us</a>
           <div class="icon">
-            <i class="fa-solid fa-magnifying-glass"onclick="moveToHome()"></i>
-            <i onclick="openCartModal()" class="fa-solid fa-cart-shopping"></i>
+            <i class="fa-solid fa-magnifying-glass" onclick="moveToHome()"></i>
+            <i class="fa-solid fa-cart-shopping" id="openCartModal"></i>
             <i class="fa-solid fa-user"></i>
             <div class="line"></div>
             <i class="fa-solid fa-globe"></i>
@@ -105,18 +140,18 @@
             <ul id="cartItems"></ul>
             <div class="ticketInfo flex gap-5 ">
               <table style="width: 100%" id="tableContent">
-                <tr>
-                  <td>Departure</td>
-                  <td>Destination</td>
-                  <td>Departure Date</td>
-                  <td>Return Date</td>
-                  <td>Passengers</td>
-                </tr>
-                <!-- <tr>
-                  <td>x</td>
-                  <td>x</td>
-                  <td>x</td>
-                </tr> -->
+                <thead>
+                  <tr>
+                    <td>Departure</td>
+                    <td>Destination</td>
+                    <td>Departure Date</td>
+                    <td>Return Date</td>
+                    <td>Passengers</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
               </table>
               <!-- <div class="userInfo flex flex-col w-1/2">
                 <h2 class="text">Thông tin khách hàng</h2>
@@ -129,9 +164,7 @@
                   Đặt vé
                 </button>
               </div> -->
-              <button id="submit" onclick="alert('Đặt hàng thành công !')">
-                Đặt vé
-              </button>
+              
             </div>
           </div>
         </div>
@@ -300,7 +333,9 @@
   const tudong_chatbox = new TuDongChat('9lVaW5_b-jKJATEwnzdQJ')
   tudong_chatbox.initial()
 </script>
+<script type="module" src="./ShopCart.js"></script>
+  <script src="./searching.js"></script>
+  <script src="./utils.js"></script>
   </body>
-  <script src="ShopCart.js"></script>
-  <script src="searching.js"></script>
+  
 </html>

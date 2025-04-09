@@ -1,81 +1,80 @@
-const items = [];
+import { getDataByUid, handleDelete, handleEdit, getDocumentById } from "./firebase.js";
 
-function openCartModal() {
-  var modal = document.getElementById("cartModal");
-  modal.style.display = "block";
-}
+// Gọi ban đầu khi click mở giỏ hàng
+document.getElementById('openCartModal').addEventListener('click', async function () {
+  openCartModal(); // Mở modal giỏ hàng
+  await renderCartTable(); // Load bảng
+});
 
-function closeCartModal() {
-  var modal = document.getElementById("cartModal");
-  modal.style.display = "none";
-}
+async function renderCartTable() {
+  const userId = JSON.parse(localStorage.getItem('user')).uid;
+  const data = await getDataByUid(userId);
+  const tbody = document.getElementById("tableBody");
 
-function displayCartItems() {
-  var cartItemsElement = document.getElementById("cartItems");
-  cartItemsElement.innerHTML = "";
+  tbody.innerHTML = ""; // Clear bảng
 
-  const tableContent = document.getElementById("tableContent");
+  data.forEach(item => {
+    const row = document.createElement("tr");
 
-  items.forEach(function (item) {
-    const tr = document.createElement("tr");
-
-    const td1 = document.createElement("td");
-    td1.textContent = item.route;
-
-    const td2 = document.createElement("td");
-    td2.textContent = item.price;
-
-    const td3 = document.createElement("td");
-    td3.textContent = item.time;
-
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-
-    tableContent.appendChild(tr);
+    row.innerHTML = `
+      <td>${item.arrival || ""}</td>
+      <td>${item.departure || ""}</td>
+      <td>${item.departuredate || ""}</td>
+      <td>${item.returndate || ""}</td>
+      <td>${item.passengers || ""}</td>
+      <td><button class="edit-btn" data-id="${item.id}">Sửa</button></td>
+      <td><button class="delete-btn" data-id="${item.id}">Xóa</button></td>
+    `;
+    tbody.appendChild(row);
   });
+
+  tbody.onclick = async function (e) {
+    const id = e.target.dataset.id;
+    if (!id) return;
+
+    if (e.target.classList.contains("edit-btn")) {
+      const data = await getDocumentById(id);
+      document.getElementById("popupForm").style.display = "block";
+
+      document.getElementById("departure").value = data.departure;
+      document.getElementById("arrival").value = data.arrival;
+      document.getElementById("depart-date").value = data.departuredate;
+      document.getElementById("return-date").value = data.returndate;
+      document.getElementById("passengers").value = data.passengers;
+      document.getElementById("promo-code").value = data.promocode || "";
+
+      document.getElementById("form").dataset.editingId = id;
+    }
+
+    if (e.target.classList.contains("delete-btn")) {
+      handleDelete(id);
+      await renderCartTable();
+    }
+  };
 }
 
-const addItemIntoCard = (route, price, time) => {
-  items.push({
-    route,
-    price,
-    time,
-  });
-  alert(`Đã thêm chuyến bay ${route} vào giỏ hàng`);
-  displayCartItems();
-};
-function moveToHome() {
-  // console.log(window.location);
-  location.replace(`${window.location.origin}/index.html`);
-}
-let slideIndex = 1;
-showSlides(slideIndex);
+document.getElementById("submit").addEventListener("click", async function (e) {
+  e.preventDefault(); 
 
-function plusSlides(n) {
-  showSlides((slideIndex += n));
-}
+  const editingId = document.getElementById("form").dataset.editingId;
+console.log(editingId);
 
-function currentSlide(n) {
-  showSlides((slideIndex = n));
-}
+  const updatedData = {
+    departure: document.getElementById("departure").value,
+    arrival: document.getElementById("arrival").value,
+    departuredate: document.getElementById("depart-date").value,
+    returndate: document.getElementById("return-date").value,
+    passengers: document.getElementById("passengers").value,
+    promocode: document.getElementById("promo-code").value
+  };
 
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {
-    slideIndex = 1;
+  try {
+    await handleEdit(editingId, updatedData);
+    alert("Cập nhật thành công!");
+    document.getElementById("popupForm").style.display = "none";
+    await renderCartTable(); 
+  } catch (err) {
+    console.error("Lỗi khi cập nhật:", err);
+    alert("Cập nhật thất bại!");
   }
-  if (n < 1) {
-    slideIndex = slides.length;
-  }
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex - 1].style.display = "block";
-  dots[slideIndex - 1].className += " active";
-}
+});

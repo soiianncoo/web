@@ -613,4 +613,64 @@ table {
 }
 .lineRow{
     width: 100%;
-    border-bottom: 2px solid rgb(131, 127, 127);}
+    border-bottom: 2px solid rgb(131, 127, 127);
+}
+
+/* Popup form */
+#popupForm {
+    position: fixed;               /* cố định trên màn hình */
+  top: 50%;                      /* canh giữa chiều dọc */
+  left: 50%;                     /* canh giữa chiều ngang */
+  transform: translate(-50%, -50%); /* đẩy lại chính giữa */
+  background-color: rgba(0, 0, 0, 0.5); /* nền tối */
+  z-index: 1000;                 /* nằm trên mọi thứ */
+  padding: 40px;
+  border-radius: 10px;
+  }
+  
+  .form-body {
+    background-color: #fff;
+    padding: 24px 32px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group label {
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  
+  .input-group input,
+  .input-group select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .search-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  

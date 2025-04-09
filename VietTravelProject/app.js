@@ -1,22 +1,45 @@
-function moveToShopCart() {
-  // console.log(window.location);
-  location.replace(`${window.location.origin}/ShopCart.html`);
-}
+import {db, auth, onAuthStateChanged, collection, addDoc, signOut } from './firebase.js'
 
-function moveToRegister() {
-  // console.log(window.location);
-  location.replace(`${window.location.origin}/register.html`);
-}
-
-function moveToLogin() {
-  // console.log(window.location);
-  location.replace(`${window.location.origin}/login.html`);
-}
+document.getElementById('form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if(!localStorage.getItem('user')){
+    alert("Bạn cần đăng nhập để sử dụng tính năng này!");
+    return;
+  }
+  const departure = document.getElementById("departure").value;
+  const arrival = document.getElementById("arrival").value;
+  const departuredate = document.getElementById("depart-date").value;
+  const returndate = document.getElementById("return-date").value;
+  const passengers = document.getElementById("passengers").value;
+  const promocode = document.getElementById("promo-code").value;
+  const userId = JSON.parse(localStorage.getItem('user')).uid
+  if(departure==="" || arrival==="" || departuredate==="" || returndate==="" || passengers===""){
+    alert("Bạn cần điền đầy đủ thông tin!")
+  }
+  else{
+    try {
+      await addDoc(collection(db, "bookings"), {
+        userId,
+        departure,
+        arrival,
+        departuredate,
+        returndate,
+        passengers,
+        promocode,
+        createdAt: new Date(),
+      });
+      alert("Đặt vé thành công!");
+      document.getElementById('form').reset();
+    } catch (err) {
+      console.error("Lỗi khi đặt vé:", err);
+      alert("Có lỗi xảy ra.");
+    }
+  }
+})
 
 // check if user is logged in
-firebase.auth().onAuthStateChanged((user) => {
+onAuthStateChanged(auth, (user) => {
   const tools = document.getElementById("tools");
-
   if (user) {
     // User is signed in.
     const search = document.createElement("i");
@@ -24,7 +47,10 @@ firebase.auth().onAuthStateChanged((user) => {
 
     const cart = document.createElement("i");
     cart.className = "fa-solid fa-cart-shopping";
-    cart.onclick = moveToShopCart;
+    cart.id="moveShopCart";
+    cart.addEventListener("click", ()=>{
+      location.replace(`${window.location.origin}/ShopCart.html`);
+    })
 
     const userIcon = document.createElement("i");
     userIcon.className = "fa-solid fa-user";
@@ -43,7 +69,14 @@ firebase.auth().onAuthStateChanged((user) => {
 
     const button = document.createElement("button");
     button.onclick = () => {
-      firebase.auth().signOut();
+      signOut(auth)
+      .then(()=>{
+        localStorage.removeItem('user');
+        window.location.href = "login.html"; 
+      })
+      .catch((error) => {
+        console.error("Lỗi khi đăng xuất:", error);
+      });
       window.location.reload();
     };
     button.className = "log1";
@@ -69,7 +102,3 @@ firebase.auth().onAuthStateChanged((user) => {
   }
 });
 
-function moveToHome() {
-  // console.log(window.location);
-  location.replace(`${window.location.origin}/index.html`);
-}

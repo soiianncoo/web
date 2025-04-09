@@ -23,11 +23,6 @@
       async
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCI-D2TgGkoG-aPuxymxZV...r&v=beta"
     ></script>
-    <!-- //firebase -->
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
   </head>
   <body>
     <div class="full-container">
@@ -85,7 +80,7 @@
             </p>
           </div>
           <div class="bookingIcon"></div>
-          <div class="form-body">
+          <form class="form-body" id="form">
         <div class="input-group">
             <label for="departure">Điểm khởi hành</label>
             <input type="text" id="departure" placeholder="Điểm khởi hành">
@@ -114,9 +109,8 @@
             <label for="promo-code">Mã khuyến mại</label>
             <input type="text" id="promo-code">
         </div>
-        
-        <button class="search-button">ĐẶT VÉ NGAY</button>
-    </div>
+        <button class="search-button" id="submit">ĐẶT VÉ NGAY</button>
+          </form>
   </div>
         </div>
       <div class="container4" id="ctn4">
@@ -362,8 +356,8 @@
   const tudong_chatbox = new TuDongChat('9lVaW5_b-jKJATEwnzdQJ')
   tudong_chatbox.initial()
 </script>
-  </body>
-  <script src="firebase.js"></script>
-  <script src="app.js"></script>
+ <script type='module' src="app.js"></script>
   <script src="searching.js"></script>
+  <script src="./utils.js"></script>
+  </body>
 </html>
