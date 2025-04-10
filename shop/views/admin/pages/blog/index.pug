@@ -1,0 +1,47 @@
+extends ../../layouts/default.pug
+
+block main
+    .app-main 
+        .container-fluid
+            .d-flex.justify-content-between.align-items-center.mb-4
+                h2 Danh sách bài viết
+                a.btn.btn-primary(href='/admin/blogs/create') Thêm bài viết
+            table.table.table-hover.table-striped.table-bordered
+                thead.thead-dark
+                    tr
+                        th(scope='col') Tiêu đề
+                        //- th Danh mục
+                        th(scope='col') Trạng thái
+                        th(scope='col') Hành động
+                tbody
+                    each blog in blogs
+                        tr
+                            td
+                                p.mb-0 #{blog.title}
+                            //- td #{blog.category}
+                            td
+                                if(blog.status == "active")
+                                    a(
+                                        href="javascript:;" 
+                                        data-status=blog.status
+                                        data-id=blog.id
+                                        button-change-status
+                                        class="badge badge-success"
+                                    ) Đang hoạt động
+                                else    
+                                    a(
+                                        href="javascript:;" 
+                                        data-status=blog.status
+                                        data-id=blog.id
+                                        button-change-status
+                                        class="badge badge-danger"
+                                    ) Ngừng hoạt động
+                                
+                            td
+                                a.btn.btn-warning.btn-sm.mr-2(href=`${prefixAdmin}/blogs/edit/${blog._id}`) 
+                                    i.fas.fa-edit.mr-1 
+                                    | Chỉnh sửa
+                                form(action=`/blogs/${blog._id}/delete`, method='POST', style='display:inline;')
+                                    button.btn.btn-danger.btn-sm(type='submit', onclick='return confirm("Bạn có chắc chắn muốn xóa tài khoản này không?")') 
+                                        i.fas.fa-trash-alt.mr-1 
+                                        | Xóa

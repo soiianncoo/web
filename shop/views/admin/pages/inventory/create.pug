@@ -1,0 +1,120 @@
+extends ../../layouts/default.pug
+
+block main
+    .app-main 
+        .container-fluid
+            h1 Tạo đơn nhập hàng
+            form(action=`${prefixAdmin}/inventorys/addReceiveInventory`, method='POST', id='inventoryForm')
+                .form-group
+                    label(for='expectedDate') Dự Kiến Ngày Nhập:
+                    input.form-control(type='date', name='expectedDate', required)
+
+                .form-group.d-none
+                    input(type="checkbox" name="status" id="status") 
+                    label(for="status") Nhập ngay sau khi tạo đơn nhập
+                h3 Nhập Hàng
+                div#items
+                    div.item.form-inline.mb-3
+                        label Sản Phẩm:
+                        select(name='items[0][variantId]', required onchange='updateItem(this)', class='form-control mx-2')
+                            option(value='') Chọn sản phẩm...
+                            each product in products
+                                each variant in product.variants
+                                    option(value=variant._id, data-title=`${product.title}`, data-price=`${variant.price}`,data-color=`${variant.color}`, data-size=`${variant.size}`) #{product.title} - #{variant.size}/#{variant.color} - #{variant.stock}
+
+                h3 Danh Sách Mặt Hàng
+                table#itemsTable.table.table-striped.mt-3
+                    thead
+                        tr
+                            th Sản Phẩm
+                            th Số Lượng Nhận
+                            th Đơn giá
+                            th Thành tiền
+                            th 
+                    tbody
+
+                button.btn.btn-primary(type='submit') Tạo đơn
+            a.btn.btn-link(href='/admin/dashboard') Hủy
+
+    script.
+        let itemIndex = 0;
+
+        function updateItem(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const selectedValue = selectedOption.value;
+
+            if (!selectedValue) {
+                return; 
+            }
+
+            const selectedText = selectedOption.dataset.title;
+            const price = parseFloat(selectedOption.dataset.price);
+            const color = selectedOption.dataset.color;
+            const size = selectedOption.dataset.size;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <input type="hidden" name="items[${itemIndex}][variantId]" value="${selectedValue}">
+                    ${selectedText} - ${size}/${color}
+                </td>
+                <td>
+                    <input type="number" name="items[${itemIndex}][quantityReceived]" class="mx-2 quantity-input" min="1" value="1" required>
+                </td>
+                <td>
+                    <input type="number" name="items[${itemIndex}][importPrice]" class="mx-2 price-input" value="${price.toFixed(0)}" required>
+                </td>
+                <td class="totalPrice">${price.toFixed(0)}</td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this)">Xóa</button>
+                </td>
+            `;
+
+            document.querySelector('#itemsTable tbody').appendChild(row);
+
+            // Gán sự kiện cho ô số lượng nhận
+            const quantityInput = row.querySelector('.quantity-input');
+            quantityInput.addEventListener('input', () => updateRow(row));
+
+            // Gán sự kiện cho ô đơn giá
+            const priceInput = row.querySelector('.price-input');
+            priceInput.addEventListener('input', () => updateRow(row));
+
+            // Vô hiệu hóa tùy chọn đã chọn
+            disableSelectedOption(selectedValue);
+
+            itemIndex++; // Tăng chỉ số hàng
+        }
+
+        function updateRow(row) {
+            const price = parseFloat(row.querySelector('.price-input').value);
+            const quantity = parseInt(row.querySelector('.quantity-input').value);
+            const totalPrice = price * quantity;
+            row.querySelector('.totalPrice').innerText = totalPrice.toFixed(0);
+        }
+
+        function disableSelectedOption(value) {
+            const selectElements = document.querySelectorAll('select[name^="items"]');
+            selectElements.forEach(select => {
+                const option = select.querySelector(`option[value="${value}"]`);
+                if (option) {
+                    option.disabled = true; // Vô hiệu hóa tùy chọn đã chọn
+                }
+            });
+        }
+
+        function removeItem(button) {
+            const row = button.closest('tr');
+            const variantId = row.querySelector('input[name^="items"][type="hidden"]').value;
+
+            // Khôi phục tùy chọn sản phẩm
+            const selectElements = document.querySelectorAll('select[name^="items"]');
+            selectElements.forEach(select => {
+                const option = select.querySelector(`option[value="${variantId}"]`);
+                if (option) {
+                    option.disabled = false; // Kích hoạt lại tùy chọn
+                }
+            });
+
+            row.remove(); // Xóa hàng
+        }

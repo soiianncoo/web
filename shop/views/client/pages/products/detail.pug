@@ -1,0 +1,151 @@
+extends ../../layouts/default.pug
+include ../../mixins/featured.pug
+include ../../mixins/box-head.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    div.single__product.sp_top_50.sp_bottom_80
+        .container
+            .row
+                .col-xl-6.col-lg-6.col-md-12
+                    .featurearea__details__img
+                        .featurearea__big__img
+                            each thumbnail in product.thumbnail
+                                .featurearea__single__big__img
+                                    img(src=thumbnail, alt=product.title)
+                        .featurearea__thumb__img.featurearea__thumb__img__slider__active.slider__default__arrow
+                            each thumbnail in product.thumbnail
+                                .featurearea__single__thumb__img
+                                    img(src=thumbnail, alt=product.title)
+
+                .col-xl-6.col-lg-6.col-md-12
+                    .single__product__wrap
+                        .single__product__heading
+                            h2 #{product.title}
+                            span Danh mục: 
+                                a(href=`/product/${product.category.slug}`) #{product.category.title}
+                        .single__product__price
+                            if product.discountPercentage
+                                span(id="price-display") #{product.variants[0].discountPrice}Đ
+                                del(class="original-price") #{product.variants[0].price}Đ
+                                label Save #{product.discountPercentage}%
+                            else 
+                                span(id="price-display") #{product.variants[0].price}Đ
+                        hr
+                        .single__product__special__feature
+                            ul
+                                li.product__variant__inventory
+                                    strong.inventory__title Tình trạng:
+                                    span.variant__inventory(id="stock-display") Còn #{product.variants[0].stock} sản phẩm trong kho
+                        hr
+
+                        form(action=`/cart/add/${product._id}` method="POST")
+                            .single__product__swatch.d-flex.flex-wrap.align-items-center
+                                p Màu sắc:
+                                    each color in product.uniqueColors
+                                        input.form-check-input.color(type="radio", name="color", id=`color-${color.replace(/\s+/g, '')}`, data-price=product.sizesByColor[color][0].discountPrice, data-original-price=product.sizesByColor[color][0].price, value=color) 
+                                        label.form-check-label(for=`color-${color.replace(/\s+/g, '')}`) #{color}
+
+                            .single__product__swatch.d-flex.flex-wrap.align-items-center
+                                span.header Kích cỡ:
+                                ul
+                                    each color in product.uniqueColors
+                                        .color-sizes.size-container(id=`sizes-${color.replace(/\s+/g, '')}`, style="display: none;")
+                                            each variant in product.sizesByColor[color]
+                                                li
+                                                    input.form-check-input.size(type="radio", name="size", value=variant.size, id=`size-${variant.size}-${color.replace(/\s+/g, '')}`, data-stock=variant.stock)
+                                                    label.form-check-label(for=`size-${variant.size}-${color.replace(/\s+/g, '')}`) #{variant.size}
+
+                            .single__product__quantity
+                                .qty-container
+                                    button.qty-btn-minus1.btn-qty(type="button") -
+                                    input.input-qty(
+                                        class="form-control mb-2"
+                                        type="number"
+                                        name="quantity"
+                                        value="1"
+                                        min="1"
+                                        placeholder="Số lượng"
+                                    )
+                                    button.qty-btn-plus1.btn-qty(type="button") +
+                                button.default__button(type="submit" class="btn btn-success btn-block")
+                                    i.fas.fa-shopping-cart
+                                    | Thêm vào giỏ hàng
+
+                        .single__product__bottom__menu
+                            ul
+                                li
+                                    a(href=`/wishlists/toggle/${product._id}` title="Add to wishlist")
+                                        span.add__wishlist
+                                            if productIdsInWishlist.includes(product._id.toString())
+                                                i.fas.fa-heart
+                                                | Đã thêm vào danh sách yêu thích
+                                            else
+                                                i.far.fa-heart 
+                                                | Thêm vào danh sách yêu thích
+                        hr    
+
+    .descriptionarea.sp_bottom_80
+        .container
+            .row
+                .col-lg-12.col-md-12.descriptionarea__tab__wrapper
+                    ul.nav.descriptionarea__tab__button#myTab(role="tablist")
+                        li.nav-item(role="presentation")
+                            button.descriptionarea__link.active(
+                                data-bs-toggle="tab",
+                                data-bs-target="#description",
+                                type="button",
+                                aria-selected="false",
+                                role="tab",
+                                tabindex="-1"
+                            ) Mô tả
+                    .tab-content.tab__content__wrapper#myTabContent1
+                        .tab-pane.fade.active.show#description(role="tabpanel", aria-labelledby="description")
+                            p !{product.description} 
+
+    .related__section.sp_bottom_50
+        .container
+            .row
+                .col-xl-12
+                    .section__title.text-center
+                        h2 Sản phẩm liên quan
+            .row.grid__responsive.row__custom__class.feature__slider__active.slider__default__arrow
+                +featured(relatedProducts)
+
+    script(src="")
+    script.
+        document.querySelectorAll('.color').forEach(input => {
+            input.addEventListener('change', function () {
+                const selectedColor = this.value.replace(/\s+/g, ''); // Loại bỏ khoảng trắng
+                const selectedPrice = this.dataset.price;
+                const originalPrice = this.dataset.originalPrice;
+
+                // Cập nhật giá
+                document.querySelector('#price-display').textContent = `${selectedPrice}Đ`;
+                const originalPriceDisplay = document.querySelector('.original-price');
+                if (originalPriceDisplay) {
+                    originalPriceDisplay.textContent = `${originalPrice}Đ`;
+                }
+
+                // Hiển thị kích cỡ theo màu
+                document.querySelectorAll('.size-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+                const selectedSizeContainer = document.querySelector(`#sizes-${selectedColor}`);
+                if (selectedSizeContainer) {
+                    selectedSizeContainer.style.display = 'block';
+                }
+
+                // Reset tồn kho
+                document.querySelector('#stock-display').textContent = 'Còn 0 sản phẩm trong kho';
+            });
+        });
+
+        document.querySelectorAll('.size').forEach(input => {
+            input.addEventListener('change', function () {
+                const stock = this.dataset.stock;
+                document.querySelector('#stock-display').textContent = `Còn ${stock} sản phẩm trong kho`;
+            });
+        });

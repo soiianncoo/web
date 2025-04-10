@@ -1,0 +1,136 @@
+//- //- .sider 
+//- //-     .inner-menu 
+//- //-         ul 
+//- //-             li 
+//- //-                 a(href=`${prefixAdmin}/dashboard`) Tổng quan
+//- //-             if(role.permissions.includes("products-category_view"))
+//- //-                 li 
+//- //-                     a(href=`${prefixAdmin}/products-category`) Danh mục sản phẩm
+
+
+//- //-             if(role.permissions.includes("products_view"))
+//- //-                 li 
+//- //-                     a(href=`${prefixAdmin}/products`) Danh sách sản phẩm
+
+//- //-             if(role.permissions.includes("roles_view"))
+//- //-                 li 
+//- //-                     a(href=`${prefixAdmin}/roles`) Nhóm quyền
+
+//- //-             if(role.permissions.includes("roles_permissions"))
+//- //-                 li 
+//- //-                     a(href=`${prefixAdmin}/roles/permissions`) Phân quyền
+
+//- //-             if(role.permissions.includes("accounts_view"))
+//- //-                 li 
+//- //-                     a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
+//- //-             li 
+//- //-                 a(href=`${prefixAdmin}/settings/general`) Cài đặt chung
+
+aside.app-sidebar.bg-body-secondary.shadow(data-bs-theme="dark")
+    .sidebar-brand
+        a.brand-link(href="./index.html")
+            img.brand-image.opacity-75.shadow(src="/admin/assets/img/AdminLTELogo.png", alt="AdminLTE Logo")
+            span.brand-text.fw-light Quản trị viên
+    .sidebar-wrapper
+        nav.mt-2
+            ul.nav.sidebar-menu.flex-column(data-lte-toggle="treeview", role="menu", data-accordion="false")
+                li.nav-item
+                    a.nav-link(href=`${prefixAdmin}/dashboard`) Trang tổng quan
+                
+                if(role.permissions.includes("products-category_view"))
+                    li.nav-item
+                        a.nav-link(href="#") Quản lý danh mục 
+                            i.nav-arrow.bi.bi-chevron-right
+                        ul.nav.nav-treeview
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/products-category`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Danh sách
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/products-category/create`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Thêm mới
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/products-category/addDiscount`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Giảm theo danh mục
+                if(role.permissions.includes("products_view"))
+                    li.nav-item
+                        a.nav-link(href="#") Quản lý sản phẩm
+                            i.nav-arrow.bi.bi-chevron-right
+                        ul.nav.nav-treeview
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/products`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Danh sách
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/products/create`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Thêm mới
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/products/product-delete`) 
+                                    i.nav-icon.bi.bi-circle
+                                    p Sản phẩm đã xóa
+                li.nav-item
+                    a.nav-link(href=`#`) Quản lý bài viết
+                        i.nav-arrow.bi.bi-chevron-right
+                    ul.nav.nav-treeview
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/blogs`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Danh sách
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/blogs/create`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Thêm mới
+                li.nav-item
+                        a.nav-link(href="#") Quản lý nhập hàng
+                            i.nav-arrow.bi.bi-chevron-right
+                        ul.nav.nav-treeview
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/inventorys`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Danh sách
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/inventorys/import`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Tạo đơn nhập
+                if(role.permissions.includes("roles_view"))
+                    li.nav-item
+                        a.nav-link(href=`#`) Quản lý nhóm quyền
+                            i.nav-arrow.bi.bi-chevron-right
+                        ul.nav.nav-treeview
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/roles`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Danh sách
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/roles/create`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Thêm mới
+                            li.nav-item
+                                a.nav-link(href=`${prefixAdmin}/roles/permissions`)
+                                    i.nav-icon.bi.bi-circle
+                                    p Phân quyền
+                
+                //- if(role.permissions.includes("roles_permissions"))
+                //-     li.nav-item
+                //-         a.nav-link(href=`${prefixAdmin}/roles/permissions`) Phân Quyền
+                
+                li.nav-item
+                    a.nav-link(href=`${prefixAdmin}/orders`) Đơn đặt hàng
+                
+                if(role.permissions.includes("accounts_view"))
+                    li.nav-item
+                        a.nav-link(href=`${prefixAdmin}/accounts`) Quản lý tài khoản
+                if(role.permissions.includes("settings_update"))
+                    li.nav-item
+                        a.nav-link(href=`${prefixAdmin}/settings/general`) Cài đặt chung
+                //- if(role.permissions.includes("products_edit"))      
+                //-     li.nav-item
+                //-         a.nav-link(href=`${prefixAdmin}/products/product-delete`) Sản phẩm đã xóa
+                
+                
+                            
+                
+                
